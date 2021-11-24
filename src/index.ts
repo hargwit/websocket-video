@@ -1,21 +1,9 @@
 import dotenv from 'dotenv'
-import express from 'express'
-import path from 'path'
+import websocket from './websocket'
+import http from './http'
 
 dotenv.config()
 
-const { PORT = 3000 } = process.env
+const wsServer = websocket.start()
 
-const app = express()
-
-app.get('/client', (_, res) => {
-    res.sendFile(path.resolve(__dirname, './client.html'))
-})
-
-app.get('/streamer', (_, res) => {
-    res.sendFile(path.resolve(__dirname, './streamer.html'))
-})
-
-app.listen(PORT, () => {
-    console.log(`Server started at http://localhost:${PORT}`)
-})
+http.listen(wsServer)
